@@ -85,7 +85,7 @@ def subparser_hook(subparsers):
 def main(args):
     """ Create or update a virtualenv on Storm workers. """
     name = get_topology_definition(args.name)[0]
-    config = get_config()
+    config = get_config()['streamparse']
     config["virtualenv_specs"] = config["virtualenv_specs"].rstrip("/")
     create_or_update_virtualenvs(args.environment, name,
                                  "{}/{}.txt".format(config["virtualenv_specs"],

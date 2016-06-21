@@ -172,6 +172,7 @@ def submit_topology(name=None, env_name="prod", workers=None, ackers=None,
                     simple_jar=True):
     """Submit a topology to a remote Storm cluster."""
     config = get_config()
+    streamparse_config = config['streamparse']
     name, topology_file = get_topology_definition(name)
     env_name, env_config = get_env_config(env_name)
     topology_class = get_topology_from_file(topology_file)
@@ -185,11 +186,11 @@ def submit_topology(name=None, env_name="prod", workers=None, ackers=None,
 
     # If using virtualenv, set it up, and make sure paths are correct in specs
     if use_venv:
-        config["virtualenv_specs"] = config["virtualenv_specs"].rstrip("/")
+        streamparse_config["virtualenv_specs"] = streamparse_config["virtualenv_specs"].rstrip("/")
         create_or_update_virtualenvs(
             env_name,
             name,
-            "{}/{}.txt".format(config["virtualenv_specs"], name),
+            "{}/{}.txt".format(streamparse_config["virtualenv_specs"], name),
             virtualenv_flags=env_config.get('virtualenv_flags'))
         streamparse_run_path = '/'.join([env.virtualenv_root, name, 'bin',
                                          'streamparse_run'])
